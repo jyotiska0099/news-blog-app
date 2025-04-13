@@ -126,16 +126,18 @@
     display: flex;
     flex-direction: column;
     row-gap: 2rem;
+    overflow-y: scroll;
+    max-height: auto;
 }
 
 .nav-link {
     font-size: 1.5rem;
-    font-weight: 300;
+    font-weight: 300; 
     color: #ddd;
     text-transform: uppercase;
     letter-spacing: 0.1rem;
     display: flex;
-    align-items: center ;
+    align-items: center;
 }
 
 .nav-link i {
@@ -147,6 +149,8 @@
     width: clamp(30rem, 43cqi, 40%);
     height: 100%;
     border-radius: 1rem ;
+    overflow-y: scroll;
+    max-height: auto;
 }
 
 .headline {
@@ -243,6 +247,8 @@
     flex-direction: column;
     row-gap: 3rem;
     padding-bottom: 2rem;
+    overflow-y: scroll;
+    max-height: auto;
 }
 
 .my-blogs-heading {
