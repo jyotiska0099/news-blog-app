@@ -96,38 +96,36 @@ function Blogs({onBack, onCreateBlog, editPost, isEditing}){
             Post Submitted !
           </p>
         )}
-          <div className={`blogs-right-form ${showForm
-          ? 'visible'
-          : 'hidden'
-          }`} >
-            <h1>
-              {isEditing?"Edit Post":"New Post"}
-            </h1>
-            <form onSubmit={handleSubmit}>
-              <div className="img-upload">
-                <label htmlFor="file-upload" className="file-upload">
-                  <i className="fa fa-upload"></i> Upload Image
-                </label>
-                <input type="file" id='file-upload' onChange={handleImageChange}/>
-              </div>
-              <input type="text" 
-              placeholder='Add Title (Max 60 Characters)' 
-              className={`title-input ${!titleValid? 'invalid': ''}`}
+        <div className={`blogs-right-form ${showForm ? 'visible' : 'hidden'}`}>
+          <h1>
+            {isEditing ? "Edit Post" : "New Post"}
+          </h1>
+          <form onSubmit={handleSubmit}>
+            <div className="img-upload">
+              <label htmlFor="file-upload" className="file-upload">
+                <i className="fa fa-upload"></i> Upload Image
+              </label>
+              <input type="file" id='file-upload' onChange={handleImageChange}/>
+            </div>
+            <input
+              type="text"
+              placeholder='Add Title (Max 60 Characters)'
+              className={`title-input ${!titleValid ? 'invalid' : ''}`}
               value={title}
               onChange={handleTitleChange}
               maxLength={60}
-              />
-              <textarea className={`text-input ${!contentValid? 'invalid': ''}`} 
+            />
+            <textarea
+              className={`text-input ${!contentValid ? 'invalid' : ''}`}
               placeholder='Add Text ...'
               value={content}
               onChange={handleContentChange}
-              ></textarea>
-              <button className="submit-btn" type='submit'>
-                {isEditing? "Update Post":"Submit Post"}
-              </button>
-            </form>
-          </div>
-                
+            ></textarea>
+            <button className="submit-btn" type='submit'>
+              {isEditing ? "Update Post" : "Submit Post"}
+            </button>
+          </form>
+        </div>
         <button className="blogs-close-btn" onClick={onBack}>Back <i className="fa-solid fa-chevron-right"></i></button>
       </div>
     </div>
