@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Chatbot from './Chatbot'
 import Calender from './Calender'
 import './News.css'
 import userImg from '../assets/images/user.jpg'
 import noImg from '../assets/images/no-img.png'
 import blogImg1 from '../assets/images/blog1.jpg'
-import { useState } from 'react' 
 import axios from 'axios'
 import NewsModal from './NewsModal'
 import Bookmarks from './Bookmarks'
 import BlogsModal from './BlogsModal'
+import WarningModal from './WarningModal'
 
 const categories = [
     'general', 
@@ -35,6 +35,8 @@ function News({onShowBlogs, blogs,onEditBlog, onDeleteBlog}) {
     const [showBookmarksModal, setShowBookmarksModal ] = useState(false)
     const [selectedPost, setSelectedPost] = useState(null)
     const [showBlogModal, setShowBlogModal] = useState(false)
+    const [showWarning, setShowWarning] = useState(false)
+    const MAX_BOOKMARKS = 5;
 
     useEffect(() => {
         // Define the async function inside useEffect
@@ -92,14 +94,29 @@ function News({onShowBlogs, blogs,onEditBlog, onDeleteBlog}) {
     }
 
     const handleBokmarkClicks = (article) => {
-        setBookmarks((prevBookmarks) => {
-            const updatedBookmarks = prevBookmarks.find(
-                (bookmark) => bookmark.title === article.title
-            )?prevBookmarks.filter((bookmark) => bookmark.title != article.title)
-            : [...prevBookmarks, article]
-            localStorage.setItem("bookmarks", JSON.stringify(updatedBookmarks))
-            return updatedBookmarks
-        })
+        const isBookmarked = bookmarks.some(bookmark => bookmark.title === article.title);
+        
+        if (isBookmarked) {
+            // Remove bookmark
+            setBookmarks(prevBookmarks => {
+                const updatedBookmarks = prevBookmarks.filter(bookmark => bookmark.title !== article.title);
+                localStorage.setItem("bookmarks", JSON.stringify(updatedBookmarks));
+                return updatedBookmarks;
+            });
+        } else {
+            // Check if we can add more bookmarks
+            if (bookmarks.length >= MAX_BOOKMARKS) {
+                setShowWarning(true);
+                return;
+            }
+            
+            // Add bookmark
+            setBookmarks(prevBookmarks => {
+                const updatedBookmarks = [...prevBookmarks, article];
+                localStorage.setItem("bookmarks", JSON.stringify(updatedBookmarks));
+                return updatedBookmarks;
+            });
+        }
     }
 
     const handleBlogClick = (blog) => {
@@ -230,6 +247,11 @@ function News({onShowBlogs, blogs,onEditBlog, onDeleteBlog}) {
                 <BlogsModal show={showBlogModal} blog={selectedPost} onClose={handleCloseBlogModal}/>
             )}
             
+            <WarningModal 
+                show={showWarning}
+                message="You can only bookmark up to 5 articles. Please remove some bookmarks to add new ones or buy a subscription."
+                onClose={() => setShowWarning(false)}
+            />
             
             <div className="chatbot-calender">
             <Chatbot />

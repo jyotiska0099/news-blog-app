@@ -5,3 +5,94 @@
     background-color: #111214;
     border-radius: 1rem;
 }
+
+.calendar-container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.custom-calendar {
+    width: 100%;
+    max-width: 100%;
+    background: #111214;
+    border: none;
+    font-family: 'Bebas Neue', sans-serif;
+}
+
+.custom-calendar .react-calendar__navigation {
+    margin-bottom: 1rem;
+}
+
+.custom-calendar .react-calendar__navigation button {
+    color: #ffffff;
+    min-width: 0;
+    background: none;
+    font-size: 1.2rem;
+    margin-top: 0.5rem;
+}
+
+.custom-calendar .react-calendar__navigation button:enabled:hover,
+.custom-calendar .react-calendar__navigation button:enabled:focus {
+    background-color: #2d2d2d;
+}
+
+.custom-calendar .react-calendar__month-view__weekdays {
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 0.8rem;
+    color: #b88efc;
+}
+
+.custom-calendar .react-calendar__month-view__weekdays__weekday {
+    padding: 0.5rem;
+}
+
+.custom-calendar .react-calendar__month-view__days__day {
+    color: #ffffff;
+    padding: 0.5rem;
+}
+
+.custom-calendar .react-calendar__tile {
+    max-width: 100%;
+    padding: 0.8rem 0.5rem;
+    background: none;
+    text-align: center;
+    line-height: 16px;
+    font-size: 1rem;
+    color: #ffffff;
+}
+
+.custom-calendar .react-calendar__tile:enabled:hover,
+.custom-calendar .react-calendar__tile:enabled:focus {
+    background-color: #2d2d2d;
+    color: #b88efc;
+}
+
+.custom-calendar .react-calendar__tile--now {
+    background: linear-gradient(to left, #b88efc, #6877f4);
+    color: #ffffff;
+}
+
+.custom-calendar .react-calendar__tile--now:enabled:hover,
+.custom-calendar .react-calendar__tile--now:enabled:focus {
+    background: linear-gradient(to left, #a77efc, #5767f4);
+    color: #ffffff;
+}
+
+.custom-calendar .react-calendar__tile--active {
+    background: linear-gradient(to left, #b88efc, #6877f4);
+    color: #ffffff;
+}
+
+.custom-calendar .react-calendar__tile--active:enabled:hover,
+.custom-calendar .react-calendar__tile--active:enabled:focus {
+    background: linear-gradient(to left, #a77efc, #5767f4);
+    color: #ffffff;
+}
+
+.custom-calendar .react-calendar__month-view__days__day--neighboringMonth {
+    color: #666;
+}
