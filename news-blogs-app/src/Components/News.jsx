@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import Weather from './Weather'
+import Chatbot from './Chatbot'
 import Calender from './Calender'
 import './News.css'
 import userImg from '../assets/images/user.jpg'
@@ -230,12 +230,11 @@ function News({onShowBlogs, blogs,onEditBlog, onDeleteBlog}) {
                 <BlogsModal show={showBlogModal} blog={selectedPost} onClose={handleCloseBlogModal}/>
             )}
             
-            {/*
-            <div className="weather-calender">
-            <Weather />
+            
+            <div className="chatbot-calender">
+            <Chatbot />
             <Calender />
             </div>
-            */}
         </div>
         <footer className="news-footer">
             <p>
