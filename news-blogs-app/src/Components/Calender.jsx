@@ -1,9 +1,19 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './Calender.css'
+import EventModal from './EventModal'
 
 function Calender() {
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [showEventModal, setShowEventModal] = useState(false);
+  const [events, setEvents] = useState([]);
+  const [selectedEvent, setSelectedEvent] = useState(null);
   
+  useEffect(() => {
+    const savedEvents = JSON.parse(localStorage.getItem('calendarEvents')) || [];
+    setEvents(savedEvents);
+  }, []);
+
   const getDaysInMonth = (date) => {
     const year = date.getFullYear();
     const month = date.getMonth();
@@ -21,6 +31,45 @@ function Calender() {
 
   const handleNextMonth = () => {
     setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
+  };
+
+  const handleDateClick = (day) => {
+    const clickedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+    setSelectedDate(clickedDate);
+    setSelectedEvent(null);
+    setShowEventModal(true);
+  };
+
+  const handleEventClick = (event) => {
+    setSelectedEvent(event);
+    setSelectedDate(new Date(event.date));
+    setShowEventModal(true);
+  };
+
+  const handleSaveEvent = (event) => {
+    let updatedEvents;
+    if (selectedEvent) {
+      // Update existing event
+      updatedEvents = events.map(e => 
+        e.id === selectedEvent.id ? { ...event, id: e.id } : e
+      );
+    } else {
+      // Add new event
+      const newEvent = { ...event, id: Date.now() };
+      updatedEvents = [...events, newEvent];
+    }
+    setEvents(updatedEvents);
+    localStorage.setItem('calendarEvents', JSON.stringify(updatedEvents));
+    setShowEventModal(false);
+    setSelectedEvent(null);
+  };
+
+  const handleDeleteEvent = (event) => {
+    const updatedEvents = events.filter(e => e.id !== event.id);
+    setEvents(updatedEvents);
+    localStorage.setItem('calendarEvents', JSON.stringify(updatedEvents));
+    setShowEventModal(false);
+    setSelectedEvent(null);
   };
 
   const { daysInMonth, startingDay } = getDaysInMonth(currentDate);
@@ -43,12 +92,34 @@ function Calender() {
         currentDate.getMonth() === today.getMonth() && 
         currentDate.getFullYear() === today.getFullYear();
       
+      const dayEvents = events.filter(event => {
+        const eventDate = new Date(event.date);
+        return eventDate.getDate() === day && 
+               eventDate.getMonth() === currentDate.getMonth() && 
+               eventDate.getFullYear() === currentDate.getFullYear();
+      });
+      
       days.push(
         <span 
           key={day} 
-          className={isToday ? 'current-day' : ''}
+          className={`${isToday ? 'current-day' : ''} ${dayEvents.length > 0 ? 'has-event' : ''}`}
+          onClick={() => handleDateClick(day)}
         >
           {day}
+          {dayEvents.length > 0 && (
+            <div className="event-dots">
+              {dayEvents.map(event => (
+                <span 
+                  key={event.id}
+                  className="event-dot"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleEventClick(event);
+                  }}
+                ></span>
+              ))}
+            </div>
+          )}
         </span>
       );
     }
@@ -74,6 +145,17 @@ function Calender() {
       <div className="days">
         {renderDays()}
       </div>
+      <EventModal
+        show={showEventModal}
+        date={selectedDate}
+        onClose={() => {
+          setShowEventModal(false);
+          setSelectedEvent(null);
+        }}
+        onSave={handleSaveEvent}
+        onDelete={handleDeleteEvent}
+        existingEvent={selectedEvent}
+      />
     </div>
   )
 }

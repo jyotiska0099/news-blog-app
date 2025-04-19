@@ -84,6 +84,7 @@
     align-items: center;
     cursor: pointer;
     transition: all 0.3s;
+    position: relative;
 }
 
 .days span:hover:not(.empty-day) {
@@ -97,6 +98,19 @@
     background: linear-gradient(to right, #b88efc, #6877f0);
     border-radius: 50%;
     box-shadow: 0 0 10px rgba(184, 142, 252, 0.5);
+}
+
+.has-event {
+    position: relative;
+}
+
+.event-dot {
+    position: absolute;
+    bottom: 5px;
+    width: 6px;
+    height: 6px;
+    background-color: #b88efc;
+    border-radius: 50%;
 }
 
 .empty-day {
