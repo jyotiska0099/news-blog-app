@@ -10,6 +10,7 @@ import NewsModal from './NewsModal'
 import Bookmarks from './Bookmarks'
 import BlogsModal from './BlogsModal'
 import WarningModal from './WarningModal'
+import UserProfileModal from './UserProfileModal'
 
 const categories = [
     'general', 
@@ -36,6 +37,12 @@ function News({onShowBlogs, blogs,onEditBlog, onDeleteBlog}) {
     const [selectedPost, setSelectedPost] = useState(null)
     const [showBlogModal, setShowBlogModal] = useState(false)
     const [showWarning, setShowWarning] = useState(false)
+    const [showUserProfile, setShowUserProfile] = useState(false)
+    const [user, setUser] = useState({
+        name: "Jane's Blog",
+        email: "jane@example.com",
+        profilePic: userImg
+    })
     const MAX_BOOKMARKS = 5;
 
     useEffect(() => {
@@ -129,6 +136,14 @@ function News({onShowBlogs, blogs,onEditBlog, onDeleteBlog}) {
         setSelectedPost(null)
     }
 
+    const handleUserProfileUpdate = (updatedData) => {
+        setUser(prevUser => ({
+            ...prevUser,
+            ...updatedData
+        }));
+        // Here you would typically make an API call to update the user data on the server
+    }
+
   return (
     <div className='news'>
         <header className="news-header">
@@ -149,9 +164,9 @@ function News({onShowBlogs, blogs,onEditBlog, onDeleteBlog}) {
         </header>
         <div className="news-content">
             <div className="navbar">
-                <div className="user" onClick={onShowBlogs}>
-                    <img src={userImg} alt="User Image" />
-                    <p>Jane's Blog</p>
+                <div className="user" onClick={() => setShowUserProfile(true)}>
+                    <img src={user.profilePic} alt="User Image" />
+                    <p>{user.name}</p>
                 </div>
                 <nav className="categories">
                     <h1 className="nav-heading">Categories</h1>
@@ -256,6 +271,13 @@ function News({onShowBlogs, blogs,onEditBlog, onDeleteBlog}) {
                 show={showWarning}
                 message="You can only bookmark up to 5 articles. Please remove some bookmarks to add new ones or buy a subscription."
                 onClose={() => setShowWarning(false)}
+            />
+
+            <UserProfileModal
+                show={showUserProfile}
+                user={user}
+                onClose={() => setShowUserProfile(false)}
+                onUpdate={handleUserProfileUpdate}
             />
             
             <div className="chatbot-calender">
