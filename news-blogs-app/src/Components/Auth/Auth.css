@@ -1,0 +1,109 @@
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #1a1c20;
+}
+
+.auth-box {
+  background-color: #2c3542;
+  padding: 3rem;
+  border-radius: 1.5rem;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
+}
+
+.auth-box h2 {
+  color: #fff;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  font-family: 'Bebas Neue', sans-serif;
+}
+
+.form-group {
+  margin-bottom: 2rem;
+}
+
+.form-group label {
+  display: block;
+  color: #b8c1d9;
+  margin-bottom: 0.8rem;
+  font-size: 1.3rem;
+  font-weight: 500;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 1rem;
+  background-color: #3a4250;
+  border: none;
+  border-radius: 0.8rem;
+  color: #fff;
+  font-size: 1.3rem;
+}
+
+.error-message {
+  color: #ff6b6b;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.primary-button {
+  width: 100%;
+  padding: 1.2rem;
+  background: linear-gradient(to right, #b88efc, #6877f0);
+  color: #fff;
+  border: none;
+  border-radius: 5rem;
+  font-size: 1.3rem;
+  font-family: 'Bebas Neue', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-bottom: 1.5rem;
+}
+
+.primary-button:hover {
+  background: linear-gradient(to right, #a77efc, #5767f0);
+  transform: translateY(-2px);
+  box-shadow: 0 .2rem 1rem rgba(0,0,0,0.2);
+}
+
+.primary-button:disabled {
+  background: #3a4250;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.secondary-button {
+  width: 100%;
+  padding: 1.2rem;
+  background: transparent;
+  color: #b88efc;
+  border: 2px solid #b88efc;
+  border-radius: 5rem;
+  font-size: 1.3rem;
+  font-family: 'Bebas Neue', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.secondary-button:hover {
+  background: rgba(184, 142, 252, 0.1);
+  transform: translateY(-2px);
+}
+
+.auth-switch {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.auth-switch p {
+  color: #b8c1d9;
+  margin-bottom: 0.8rem;
+  font-size: 1.2rem;
+} 

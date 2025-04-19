@@ -50,23 +50,28 @@
     color: transparent;
 }
 
+.search-bar button {
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+    color: #bbb;
+    font-size: 1.8rem;
+    cursor: pointer;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .news-content {
     display: flex; 
     column-gap: 2rem;
     height: calc(100% - 16rem);
     padding: 0 2rem;  
-}
-
-.search-bar button {
-    background-color: transparent;
-    border: none;
-    position: absolute ;
-    top: 50%;
-    right: 1rem;
-    transform: translateY(-50%);
-    color: #bbb;
-    font-size: 1.8 rem;
-    cursor: pointer;
 }
 
 .navbar {

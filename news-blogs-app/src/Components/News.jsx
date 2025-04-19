@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import { signOut } from 'firebase/auth'
+import { auth } from '../firebase'
 import Chatbot from './Chatbot'
 import Calender from './Calender'
 import './News.css'
@@ -24,7 +26,7 @@ const categories = [
     'nation',
 ]
 
-function News({onShowBlogs, blogs,onEditBlog, onDeleteBlog}) {
+function News({onShowBlogs, blogs,onEditBlog, onDeleteBlog, user}) {
     const [headline, setHeadline] = useState(null)
     const [news, setNews] = useState([])
     const [selectedCategory, setSelectedCategory] = useState('general')
@@ -38,10 +40,10 @@ function News({onShowBlogs, blogs,onEditBlog, onDeleteBlog}) {
     const [showBlogModal, setShowBlogModal] = useState(false)
     const [showWarning, setShowWarning] = useState(false)
     const [showUserProfile, setShowUserProfile] = useState(false)
-    const [user, setUser] = useState({
-        name: "Jane's Blog",
-        email: "jane@example.com",
-        profilePic: userImg
+    const [userData, setUserData] = useState({
+        name: user?.displayName || "User",
+        email: user?.email || "",
+        profilePic: user?.photoURL || userImg
     })
     const MAX_BOOKMARKS = 5;
 
@@ -83,6 +85,14 @@ function News({onShowBlogs, blogs,onEditBlog, onDeleteBlog}) {
         };
         fetchNews()
     }, [selectedCategory, searchQuery]);
+
+    const handleLogout = async () => {
+        try {
+            await signOut(auth);
+        } catch (error) {
+            console.error("Error signing out:", error);
+        }
+    }
 
     const handleCategoryClick = (e, category) => {
         e.preventDefault()
@@ -137,7 +147,7 @@ function News({onShowBlogs, blogs,onEditBlog, onDeleteBlog}) {
     }
 
     const handleUserProfileUpdate = (updatedData) => {
-        setUser(prevUser => ({
+        setUserData(prevUser => ({
             ...prevUser,
             ...updatedData
         }));
@@ -165,8 +175,8 @@ function News({onShowBlogs, blogs,onEditBlog, onDeleteBlog}) {
         <div className="news-content">
             <div className="navbar">
                 <div className="user" onClick={() => setShowUserProfile(true)}>
-                    <img src={user.profilePic} alt="User Image" />
-                    <p>{user.name}</p>
+                    <img src={userData.profilePic} alt="User Image" />
+                    <p>{userData.name}</p>
                 </div>
                 <nav className="categories">
                     <h1 className="nav-heading">Categories</h1>
@@ -185,6 +195,9 @@ function News({onShowBlogs, blogs,onEditBlog, onDeleteBlog}) {
                         onClick={() => setShowBookmarksModal(true)}
                         >
                             Bookmarks <i className="fa-solid fa-bookmark"></i>
+                        </a>
+                        <a href="#" className='nav-link' onClick={handleLogout}>
+                            Logout <i className="fa-solid fa-right-from-bracket"></i>
                         </a>
                     </div>
                 </nav>
@@ -275,7 +288,7 @@ function News({onShowBlogs, blogs,onEditBlog, onDeleteBlog}) {
 
             <UserProfileModal
                 show={showUserProfile}
-                user={user}
+                user={userData}
                 onClose={() => setShowUserProfile(false)}
                 onUpdate={handleUserProfileUpdate}
             />
