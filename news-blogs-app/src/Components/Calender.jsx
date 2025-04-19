@@ -1,58 +1,78 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './Calender.css'
 
 function Calender() {
+  const [currentDate, setCurrentDate] = useState(new Date());
+  
+  const getDaysInMonth = (date) => {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    const daysInMonth = lastDay.getDate();
+    const startingDay = firstDay.getDay();
+    
+    return { daysInMonth, startingDay };
+  };
+
+  const handlePrevMonth = () => {
+    setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1));
+  };
+
+  const handleNextMonth = () => {
+    setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
+  };
+
+  const { daysInMonth, startingDay } = getDaysInMonth(currentDate);
+  const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+  const renderDays = () => {
+    const days = [];
+    const today = new Date();
+    
+    // Add empty cells for days before the first day of the month
+    for (let i = 0; i < startingDay; i++) {
+      days.push(<span key={`empty-${i}`} className="empty-day"></span>);
+    }
+
+    // Add days of the month
+    for (let day = 1; day <= daysInMonth; day++) {
+      const isToday = 
+        day === today.getDate() && 
+        currentDate.getMonth() === today.getMonth() && 
+        currentDate.getFullYear() === today.getFullYear();
+      
+      days.push(
+        <span 
+          key={day} 
+          className={isToday ? 'current-day' : ''}
+        >
+          {day}
+        </span>
+      );
+    }
+
+    return days;
+  };
+
   return (
     <div className='calender'> 
       <div className="navigate-date">
-        <h2 className="month">July</h2>
-        <h2 className="year">2025</h2>
+        <h2 className="month">{monthNames[currentDate.getMonth()]}</h2>
+        <h2 className="year">{currentDate.getFullYear()}</h2>
         <div className="buttons">
-          <i className="fa-solid fa-chevron-left"></i>
-          <i className="fa-solid fa-chevron-right"></i>
+          <i className="fa-solid fa-chevron-left" onClick={handlePrevMonth}></i>
+          <i className="fa-solid fa-chevron-right" onClick={handleNextMonth}></i>
         </div>
       </div>
       <div className="weekdays">
-        <span>Sun</span>
-        <span>Mon</span>
-        <span>Tue</span>
-        <span>Wed</span>
-        <span>Thu</span>
-        <span>Fri</span>
-        <span>Sat</span>
+        {weekDays.map(day => (
+          <span key={day}>{day}</span>
+        ))}
       </div>
       <div className="days">
-        <span>1</span>
-        <span className='current-day'>2</span>
-        <span>3</span>
-        <span>4</span>
-        <span>5</span>
-        <span>6</span>
-        <span>7</span>
-        <span>8</span>
-        <span>9</span>
-        <span>10</span>
-        <span>11</span>
-        <span>12</span>
-        <span>13</span>
-        <span>14</span>
-        <span>15</span>
-        <span>16</span>
-        <span>17</span>
-        <span>18</span>
-        <span>19</span>
-        <span>20</span>
-        <span>21</span>
-        <span>22</span>
-        <span>23</span>
-        <span>24</span>
-        <span>25</span>
-        <span>26</span>
-        <span>27</span>
-        <span>28</span>
-        <span>29</span>
-        <span>30</span>
-        <span>31</span>
+        {renderDays()}
       </div>
     </div>
   )
