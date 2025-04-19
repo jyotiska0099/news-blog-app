@@ -245,9 +245,9 @@
 .my-blogs {
     width: 30%;
     padding: 2rem;
+    height: 100%;
     background-color: #111214;
     border-radius: 1rem;
-    margin-top: 2rem;
 }
 
 .my-blogs-header {

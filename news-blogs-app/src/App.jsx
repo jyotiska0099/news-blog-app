@@ -27,10 +27,17 @@ const App = () => {
   }, [])
 
   const handleCreateBlog = (newBlog, isEdit) => {
+    console.log('Creating/Editing blog:', newBlog, 'isEdit:', isEdit)
     setBlogs((prevBlogs) => {
-      const updatedBlogs = isEdit
-        ? prevBlogs.map((blog) => (blog === selectedPost) ? newBlog : blog)
-        : [...prevBlogs, newBlog]
+      let updatedBlogs;
+      if (isEdit) {
+        updatedBlogs = prevBlogs.map((blog) => 
+          blog.id === newBlog.id ? newBlog : blog
+        );
+      } else {
+        updatedBlogs = [...prevBlogs, newBlog];
+      }
+      console.log('Updated blogs array:', updatedBlogs)
       localStorage.setItem('blogs', JSON.stringify(updatedBlogs))
       return updatedBlogs
     })
@@ -40,7 +47,7 @@ const App = () => {
 
   const handleEditBlogs = (blog) => {
     setSelectedPost(blog)
-    setIsEditing(true)
+    setIsEditing(blog !== null)
     setShowNews(false)
     setShowBlogs(true)
   }

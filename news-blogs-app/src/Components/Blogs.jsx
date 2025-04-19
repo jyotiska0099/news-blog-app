@@ -67,6 +67,7 @@ function Blogs({onBack, onCreateBlog, editPost, isEditing}){
       image: image || noImg,
       title,
       content,
+      id: Date.now()
     }
 
     onCreateBlog(newBlog, isEditing)
@@ -78,7 +79,7 @@ function Blogs({onBack, onCreateBlog, editPost, isEditing}){
     setTimeout(()=>{
       setSubmitted(false)
       onBack()
-    }, 3000)
+    }, 2000)
   }
 
   return (
