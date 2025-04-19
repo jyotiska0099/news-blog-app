@@ -40,7 +40,8 @@ function Calender() {
     setShowEventModal(true);
   };
 
-  const handleEventClick = (event) => {
+  const handleEventClick = (event, e) => {
+    e.stopPropagation();
     setSelectedEvent(event);
     setSelectedDate(new Date(event.date));
     setShowEventModal(true);
@@ -50,12 +51,23 @@ function Calender() {
     let updatedEvents;
     if (selectedEvent) {
       // Update existing event
-      updatedEvents = events.map(e => 
-        e.id === selectedEvent.id ? { ...event, id: e.id } : e
-      );
+      updatedEvents = events.map(e => {
+        if (e.id === selectedEvent.id) {
+          return {
+            ...event,
+            id: e.id,
+            date: selectedDate // Preserve the original date when updating
+          };
+        }
+        return e;
+      });
     } else {
       // Add new event
-      const newEvent = { ...event, id: Date.now() };
+      const newEvent = {
+        ...event,
+        id: Date.now(),
+        date: selectedDate
+      };
       updatedEvents = [...events, newEvent];
     }
     setEvents(updatedEvents);
@@ -68,6 +80,11 @@ function Calender() {
     const updatedEvents = events.filter(e => e.id !== event.id);
     setEvents(updatedEvents);
     localStorage.setItem('calendarEvents', JSON.stringify(updatedEvents));
+    setShowEventModal(false);
+    setSelectedEvent(null);
+  };
+
+  const handleCloseModal = () => {
     setShowEventModal(false);
     setSelectedEvent(null);
   };
@@ -112,10 +129,7 @@ function Calender() {
                 <span 
                   key={event.id}
                   className="event-dot"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleEventClick(event);
-                  }}
+                  onClick={(e) => handleEventClick(event, e)}
                 ></span>
               ))}
             </div>
@@ -148,10 +162,7 @@ function Calender() {
       <EventModal
         show={showEventModal}
         date={selectedDate}
-        onClose={() => {
-          setShowEventModal(false);
-          setSelectedEvent(null);
-        }}
+        onClose={handleCloseModal}
         onSave={handleSaveEvent}
         onDelete={handleDeleteEvent}
         existingEvent={selectedEvent}

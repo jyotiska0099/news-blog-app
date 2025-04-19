@@ -221,7 +221,12 @@ function News({onShowBlogs, blogs,onEditBlog, onDeleteBlog}) {
             onDeleteBookmark={handleBokmarkClicks} 
             />
             <div className="my-blogs">
-                <h1 className="my-blogs-heading">My Blogs</h1>
+                <div className="my-blogs-header">
+                    <h1 className="my-blogs-heading">My Blogs</h1>
+                    <button className="create-blog-button" onClick={() => onEditBlog(null)}>
+                        <i className="fa-solid fa-plus"></i> Create Blog
+                    </button>
+                </div>
                 <div className="blog-posts">
                     {blogs.map((blog, index)=>(
                         <div className="blog-post" key={index} onClick={()=>handleBlogClick(blog)}>

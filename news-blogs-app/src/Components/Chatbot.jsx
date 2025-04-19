@@ -5,7 +5,7 @@ import './Chatbot.css';
 function Chatbot() {
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState([
-    { text: "Hello! I'm your SimpleFeed AI assistant Powered by Gemini. How can I help you today?", sender: 'bot' }
+    { text: "Hello! I'm your SimpleFeed AI assistant Powered by Gemini. How can I help you today? :)", sender: 'bot' }
   ]);
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
