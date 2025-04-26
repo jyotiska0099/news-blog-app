@@ -8,3 +8,6 @@ cd news-blogs-app
 npm install
 
 npm run dev
+
+
+Link to deployed Website: https://news-blog-app-xi.vercel.app/ 
